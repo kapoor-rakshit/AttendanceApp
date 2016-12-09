@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.util.Calendar;
 
 public class newactivity extends AppCompatActivity {
@@ -18,20 +17,22 @@ public class newactivity extends AppCompatActivity {
     private String branchval="";
     private String categoryval="";
     private String rollno="";
-    private String date="";
+    private String dte="";
     final Calendar c = Calendar.getInstance();
-LoginAdapter loginadapter;
-    int selectedYear=c.get(Calendar.YEAR);
-    int selectedMonth=c.get(Calendar.MONTH)+1;
-    int selectedDayOfMonth=c.get(Calendar.DAY_OF_MONTH);
+    LoginAdapter loginadapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newactivity);
 
-Spinner branchspinner=(Spinner)findViewById(R.id.branchspinner);
+        final int selectedYear=c.get(Calendar.YEAR);
+        final int selectedMonth=c.get(Calendar.MONTH)+1;
+        final int selectedDayOfMonth=c.get(Calendar.DAY_OF_MONTH);
+
+        Spinner branchspinner=(Spinner)findViewById(R.id.branchspinner);
         Spinner categoryspinner=(Spinner)findViewById(R.id.categoryspinner);
-        EditText roll=(EditText)findViewById(R.id.editText);
+      final EditText roll=(EditText)findViewById(R.id.editText);
         Button sb=(Button)findViewById(R.id.submitbutton);
         loginadapter=new LoginAdapter(this);
         loginadapter=loginadapter.open();
@@ -74,18 +75,17 @@ Spinner branchspinner=(Spinner)findViewById(R.id.branchspinner);
 
             }
         });
-        rollno=roll.getText().toString();
-
-        date=Integer.toString(selectedDayOfMonth);
-        date=date.concat(Integer.toString(selectedMonth));
-        date=date.concat(Integer.toString(selectedYear));
 
         sb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //add here code for inserting the rollno,date,category,branch in table;
-loginadapter.insertentry(date,branchval,categoryval,rollno);
-                Toast.makeText(newactivity.this,"Attendance Recorded for "+date,Toast.LENGTH_SHORT).show();
+                dte=Integer.toString(selectedDayOfMonth);
+                dte=dte.concat(Integer.toString(selectedMonth));
+                dte=dte.concat(Integer.toString(selectedYear));
+                rollno=roll.getText().toString();
+                loginadapter.insertentry(dte,branchval,categoryval,rollno);
+                Toast.makeText(newactivity.this,"Attendance Recorded",Toast.LENGTH_SHORT).show();
             }
         });
     }

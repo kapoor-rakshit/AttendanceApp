@@ -7,18 +7,18 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="#fff"
     tools:context="rkapoors.attendanceapp.MainActivity"
-    android:backgroundTint="@color/abc_color_highlight_material">
+    >
 
     <Button
         android:layout_width="fill_parent"
         android:layout_height="70dp"
-        android:text="Check Attendance"
+        android:text="Check"
         android:id="@+id/chkbutton"
         android:textAlignment="center"
         android:textStyle="bold|italic"
-        android:textSize="20dp"
-        android:visibility="visible"
+        android:textSize="20sp"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true" />
 
@@ -27,9 +27,29 @@
         android:layout_height="70dp"
         android:text="New Attendance"
         android:id="@+id/newbutton"
-        android:layout_marginBottom="82dp"
         android:textStyle="bold|italic"
-        android:textSize="20dp"
+        android:textSize="20sp"
+
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:id="@+id/imageView"
+        android:src="@drawable/imagesandroid"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:text="Update"
+        android:id="@+id/updatebutton"
+        android:textStyle="bold|italic"
+        android:textSize="20sp"
+        android:layout_below="@+id/chkbutton"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="31dp" />
+
 </RelativeLayout>

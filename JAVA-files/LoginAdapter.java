@@ -40,14 +40,14 @@ public class LoginAdapter {
     {
         return db;
     }
-    public void insertentry(String date,String branch,String category,String roll)
+    public void insertentry(String dae,String banch,String ctegory,String rll)
     {
         ContentValues newval=new ContentValues();
 
-        newval.put("DTE",date);
-        newval.put("BRANCH",branch);
-        newval.put("CATEGORY",category);
-        newval.put("ROLL",roll);
+        newval.put("DTE",dae);
+        newval.put("BRANCH",banch);
+        newval.put("CATEGORY",ctegory);
+        newval.put("ROLL",rll);
 
         db.insert("attendance",null,newval);
     }
@@ -56,29 +56,31 @@ public class LoginAdapter {
         String where="USERNAME=?";
         db.delete("login",where,new String[]{user});
     }*/
-    public String getroll(String date,String branch,String category)                    //read
+    public String getroll(String dae,String banch,String ctegory)                    //read
     {
-        Cursor cr=db.query("attendance",null,"DTE=? and BRANCH=? and CATEGORY=?",new String[]{date,branch,category},null,null,null);
+        Cursor cr=db.query("attendance",null,"DTE=? and BRANCH=? and CATEGORY=?",new String[]{dae,banch,ctegory},null,null,null);
         if(cr.getCount()<1)
         {
             cr.close();
             return "not exist";
         }
         cr.moveToFirst();
-        String roll="";
-        roll=cr.getString(cr.getColumnIndex("ROLL"));
+        String rol="";
+        rol=cr.getString(cr.getColumnIndex("ROLL"));
         cr.close();
-        return roll;
+        return rol;
     }
-    /*public void updateentry(String user,String pass)            //update
+    public void updateentry(String dae,String banch,String ctegory,String rll)            //update
     {
         ContentValues updateval=new ContentValues();
 
-        updateval.put("USERNAME",user);
-        updateval.put("PASSWORD",pass);
+        updateval.put("DTE",dae);
+        updateval.put("BRANCH",banch);
+        updateval.put("CATEGORY",ctegory);
+        updateval.put("ROLL",rll);
 
-        String where="USERNAME=?";
-        db.update("login",updateval,where,new String[]{user});
-    }*/
+        String where="DTE=? and BRANCH=? and CATEGORY=?";
+        db.update("attendance",updateval,where,new String[]{dae,banch,ctegory});
+    }
 }
 

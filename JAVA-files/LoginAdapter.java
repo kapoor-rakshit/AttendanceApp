@@ -15,7 +15,7 @@ public class LoginAdapter {
     static final int databaseversion=1;
     public static final int namecolumn=1;
 
-    static final String databasecreate="create table "+"attendance"+"("+"DTE text,BRANCH text,CATEGORY text,ROLL text);";
+    static final String databasecreate="create table "+"attendance"+"("+"DTE text,BRANCH text,CATEGORY text,GROP text,YR text,ROLL text);";
     //create
     public SQLiteDatabase db;
 
@@ -40,7 +40,7 @@ public class LoginAdapter {
     {
         return db;
     }
-    public void insertentry(String dae,String banch,String ctegory,String rll)
+    public void insertentry(String dae,String banch,String ctegory,String rll,String grp,String yer)
     {
         ContentValues newval=new ContentValues();
 
@@ -48,17 +48,19 @@ public class LoginAdapter {
         newval.put("BRANCH",banch);
         newval.put("CATEGORY",ctegory);
         newval.put("ROLL",rll);
+        newval.put("GROP",grp);
+        newval.put("YR",yer);
 
         db.insert("attendance",null,newval);
     }
-   /* public void deleteentry(String user)                    //delete
+   public void deleteentry(String banch)                    //delete
     {
-        String where="USERNAME=?";
-        db.delete("login",where,new String[]{user});
-    }*/
-    public String getroll(String dae,String banch,String ctegory)                    //read
+        String where="BRANCH=?";
+        db.delete("attendance",where,new String[]{banch});
+    }
+    public String getroll(String dae,String banch,String ctegory,String grp,String yer)                    //read
     {
-        Cursor cr=db.query("attendance",null,"DTE=? and BRANCH=? and CATEGORY=?",new String[]{dae,banch,ctegory},null,null,null);
+        Cursor cr=db.query("attendance",null,"DTE=? and BRANCH=? and CATEGORY=? and GROP=? and YR=?",new String[]{dae,banch,ctegory,grp,yer},null,null,null);
         if(cr.getCount()<1)
         {
             cr.close();
@@ -70,7 +72,7 @@ public class LoginAdapter {
         cr.close();
         return rol;
     }
-    public void updateentry(String dae,String banch,String ctegory,String rll)            //update
+    public void updateentry(String dae,String banch,String ctegory,String rll,String grp,String yer)            //update
     {
         ContentValues updateval=new ContentValues();
 
@@ -78,9 +80,44 @@ public class LoginAdapter {
         updateval.put("BRANCH",banch);
         updateval.put("CATEGORY",ctegory);
         updateval.put("ROLL",rll);
+        updateval.put("GROP",grp);
+        updateval.put("YR",yer);
 
-        String where="DTE=? and BRANCH=? and CATEGORY=?";
-        db.update("attendance",updateval,where,new String[]{dae,banch,ctegory});
+        String where="DTE=? and BRANCH=? and CATEGORY=? and GROP=? and YR=?";
+        db.update("attendance",updateval,where,new String[]{dae,banch,ctegory,grp,yer});
+    }
+    public int compileentry(String banch,String ctegory,String rll,String grp,String yer)
+    {
+        int ct=0;
+        Cursor cr=db.query("attendance",null,"BRANCH=? and CATEGORY=? and GROP=? and YR=?",new String[]{banch,ctegory,grp,yer},null,null,null);
+
+        cr.moveToFirst();
+        while(!cr.isAfterLast())
+        {
+           String rol="";
+            String temp="";
+           rol=cr.getString(cr.getColumnIndex("ROLL"));
+            int l=rol.length();
+            int i;
+            for(i=0;i<l;i++)
+            {
+                if(rol.charAt(i)==' ') {
+                    if(temp.equals(rll)) {ct++;break;}
+                    temp="";}
+                else temp+=rol.charAt(i);
+            }
+            if(temp.equals(rll)&&i==l) ct++;
+            cr.moveToNext();
+        }
+        cr.close();
+        return ct;
+    }
+    public int getmxofcategory(String banch,String ctegory,String grp,String yer)
+    {
+        Cursor cr=db.query("attendance",null,"BRANCH=? and CATEGORY=? and GROP=? and YR=?",new String[]{banch,ctegory,grp,yer},null,null,null);
+        int val=cr.getCount();
+        cr.close();
+        return val;
     }
 }
 
